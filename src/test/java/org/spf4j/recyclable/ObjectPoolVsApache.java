@@ -35,8 +35,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingDeque;
 import org.junit.Assert;
@@ -44,7 +42,6 @@ import org.apache.commons.pool.impl.GenericObjectPool;
 import org.junit.Test;
 import org.spf4j.failsafe.AsyncRetryExecutor;
 import org.spf4j.failsafe.RetryPolicy;
-import org.spf4j.failsafe.concurrent.RetryExecutor;
 import org.spf4j.recyclable.impl.ExpensiveTestObject;
 import org.spf4j.recyclable.impl.ExpensiveTestObjectFactory;
 import org.spf4j.recyclable.impl.RecyclingSupplierBuilder;
@@ -66,15 +63,12 @@ public final class ObjectPoolVsApache {
             = new RecyclingSupplierBuilder(10, new ExpensiveTestObjectFactory(1000, 100, 0, 1)).build();
     final GenericObjectPool apool
             = new GenericObjectPool(new ExpensiveTestObjectFactoryApache(1000, 10, 0, 1), 10);
-    ExecutorService execService = Executors.newFixedThreadPool(10);
     BlockingQueue<Future<?>> completionQueue = new LinkedBlockingDeque<>();
-    RetryExecutor exec = new RetryExecutor(execService, completionQueue);
     AsyncRetryExecutor<Object, Callable<? extends Object>> policy = RetryPolicy.newBuilder()
-            .withDefaultThrowableRetryPredicate().buildAsync(exec);
+            .withDefaultThrowableRetryPredicate().buildAsync();
     long zpooltime = testPool(policy, pool, completionQueue);
     long apooltime = testPoolApache(policy, apool, completionQueue);
     Assert.assertTrue("apache pool must be slower", apooltime > zpooltime);
-    exec.close();
   }
 
   private long testPool(final AsyncRetryExecutor exec, final RecyclingSupplier<ExpensiveTestObject> pool,

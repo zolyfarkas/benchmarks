@@ -31,6 +31,7 @@
  */
 package org.spf4j.failsafe;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
@@ -41,6 +42,7 @@ import org.openjdk.jmh.annotations.TearDown;
 import org.openjdk.jmh.annotations.Threads;
 import org.spf4j.base.TimeSource;
 import org.spf4j.concurrent.DefaultScheduler;
+import org.spf4j.concurrent.PermitSupplier;
 
 /**
  *
@@ -55,7 +57,7 @@ public class Spf4jRateLimiterBenchmark {
 
   @Setup
   public static void init() {
-    limiter = new RateLimiter(10000000, 1000000);
+    limiter = new RateLimiter(10000000, Duration.ofMillis(1000000), 10000000);
   }
 
   @TearDown
@@ -71,8 +73,8 @@ public class Spf4jRateLimiterBenchmark {
   }
 
 //  @Benchmark
-  public final long acquireOverhead() throws InterruptedException {
-    return limiter.tryAcquireGetDelayMillis(1, TimeSource.nanoTime() + 1000000000);
+  public final PermitSupplier.Acquisition acquireOverhead() throws InterruptedException {
+    return limiter.tryAcquireGetDelayNanos(1, TimeSource.nanoTime() + 1000000000L);
   }
 
 
