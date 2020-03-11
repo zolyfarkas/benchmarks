@@ -28,11 +28,10 @@
   <name>${project.artifactId}</name>
   <description>This module contains a set of JMH bechmarks to validate performance of
     spf4j components</description>
-  <!--
+  <version>8.8.1-SNAPSHOT</version>
   <properties>
-    <jmh.version>1.11.3</jmh.version>
+    <spf4j.version>8.8.0</spf4j.version>
   </properties>
-  -->
 
   <dependencies>
     <dependency>
@@ -44,31 +43,31 @@
     <dependency>
       <groupId>org.spf4j</groupId>
       <artifactId>spf4j-jmh</artifactId>
-      <version>${project.version}</version>
+      <version>${spf4j.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.spf4j</groupId>
       <artifactId>spf4j-zel</artifactId>
-      <version>${project.version}</version>
+      <version>${spf4j.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.spf4j</groupId>
       <artifactId>spf4j-slf4j-test</artifactId>
-      <version>${project.version}</version>
+      <version>${spf4j.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.spf4j</groupId>
       <artifactId>spf4j-avro</artifactId>
-      <version>${project.version}</version>
+      <version>${spf4j.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.spf4j</groupId>
       <artifactId>spf4j-core</artifactId>
-      <version>${project.version}</version>
+      <version>${spf4j.version}</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
