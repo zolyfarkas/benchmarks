@@ -68,8 +68,8 @@ public final class JmhTest {
             //                .include(".*Reflections.*")
             //                .addProfiler(JmhProfiler.class)
             //                .addProfiler(CompilerProfiler.class)
-            .addProfiler(JmhFlightRecorderProfiler.class)
-            .addProfiler(Spf4jJmhProfiler.class)
+            .addProfiler(JmhFlightRecorderProfiler.class) // capture profiles with JMH
+            .addProfiler(Spf4jJmhProfiler.class) // capture profiles with spf4j (in process stack sampling)
             //                .addProfiler(GCProfiler.class)
             //"-XX:+PrintCompilation", "-XX:+UseG1GC", "-XX:MinTLABSize=1m", "-XX:MaxInlineLevel=12"
             // "-XX:+PrintInlining", "-XX:+TraceDeoptimization", "-XX:+DebugDeoptimization", "-XX:+LogEvents"
