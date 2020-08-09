@@ -23,21 +23,27 @@
   <parent>
     <groupId>org.spf4j</groupId>
     <artifactId>spf4j</artifactId>
-    <version>8.8.0</version>
+    <version>8.8.5-SNAPSHOT</version>
   </parent>
   <name>${project.artifactId}</name>
   <description>This module contains a set of JMH bechmarks to validate performance of
     spf4j components</description>
-  <version>8.8.1-SNAPSHOT</version>
+  <version>8.8.5-SNAPSHOT</version>
   <properties>
-    <spf4j.version>8.8.0</spf4j.version>
+    <spf4j.version>8.8.5-SNAPSHOT</spf4j.version>
+    <java11.home>/Library/Java/JavaVirtualMachines/jdk-11.0.8.jdk/Contents/Home</java11.home>
   </properties>
 
   <dependencies>
     <dependency>
+      <groupId>org.spf4j</groupId>
+      <artifactId>spf4j-slf4j-test</artifactId>
+      <version>${spf4j.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -48,13 +54,13 @@
     </dependency>
     <dependency>
       <groupId>org.spf4j</groupId>
-      <artifactId>spf4j-zel</artifactId>
+      <artifactId>spf4j-jmh-11</artifactId>
       <version>${spf4j.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.spf4j</groupId>
-      <artifactId>spf4j-slf4j-test</artifactId>
+      <artifactId>spf4j-zel</artifactId>
       <version>${spf4j.version}</version>
       <scope>test</scope>
     </dependency>
@@ -107,7 +113,21 @@
       <version>1.6</version>
       <scope>test</scope>
     </dependency>
-        
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <version>2.3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-core</artifactId>
+      <version>2.3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <version>2.3.0</version>
+    </dependency>
   </dependencies>
   
   <build>
@@ -119,6 +139,7 @@
         <configuration>
           <forkedProcessTimeoutInSeconds>38000</forkedProcessTimeoutInSeconds>
           <argLine>-Xmx256M -Dbasedir=${basedir} -Djmh.stack.profiles=${basedir}/target</argLine>
+          <jvm>${java11.home}/bin/java</jvm>
         </configuration>
       </plugin>
       <plugin>

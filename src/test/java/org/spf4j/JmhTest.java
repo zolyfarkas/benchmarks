@@ -40,6 +40,7 @@ import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spf4j.stackmonitor.JmhDetailedJFRProfiler;
 import org.spf4j.stackmonitor.JmhFlightRecorderProfiler;
 import org.spf4j.stackmonitor.Spf4jJmhProfiler;
 import org.spf4j.test.log.TestUtils;
@@ -64,12 +65,12 @@ public final class JmhTest {
     final String profile = System.getProperty("basedir",
             org.spf4j.base.Runtime.USER_DIR) + "/src/main/jfc/profile.jfc";
     Options opt = new OptionsBuilder()
-            //               .include(".*StringsBenchmark")
+                           .include(".*StringsBenchmark")
             //                .include(".*Reflections.*")
             //                .addProfiler(JmhProfiler.class)
             //                .addProfiler(CompilerProfiler.class)
-            .addProfiler(JmhFlightRecorderProfiler.class) // capture profiles with JMH
-            .addProfiler(Spf4jJmhProfiler.class) // capture profiles with spf4j (in process stack sampling)
+            .addProfiler(JmhDetailedJFRProfiler.class, "dir=" + destinationFolder)
+            .addProfiler(Spf4jJmhProfiler.class)
             //                .addProfiler(GCProfiler.class)
             //"-XX:+PrintCompilation", "-XX:+UseG1GC", "-XX:MinTLABSize=1m", "-XX:MaxInlineLevel=12"
             // "-XX:+PrintInlining", "-XX:+TraceDeoptimization", "-XX:+DebugDeoptimization", "-XX:+LogEvents"
@@ -81,8 +82,7 @@ public final class JmhTest {
                     "-Djmh.stack.profiles=" + destinationFolder,
 //                    "-Dspf4j.timeSource=systemTime",
                     "-Dspf4j.executors.defaultExecutor.daemon=true",
-                  "-Djmh.executor=FJP",
-                    "-Djmh.fr.options=defaultrecording=true,settings=" + profile)
+                  "-Djmh.executor=FJP")
             .result(destinationFolder + "/" + "benchmarkResults.csv")
             .resultFormat(ResultFormatType.CSV)
             .warmupIterations(3)
